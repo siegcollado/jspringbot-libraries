@@ -41,6 +41,7 @@
   </bean>
 
   <bean id="desiredCapabilities" class="org.openqa.selenium.remote.DesiredCapabilities">
+    <property name="device" value="${selenium.grid.device}"/>
     <property name="browserName" value="${selenium.grid.browserName}"/>
     <property name="platform" value="${selenium.grid.platform}"/>
     <property name="version" value="${selenium.grid.version}"/>
