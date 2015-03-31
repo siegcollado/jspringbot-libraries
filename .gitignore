@@ -4,3 +4,8 @@ target
 .DS_Store
 .project
 /bin/
+
+# Eclipse specific files
+.settings
+.classpath
+I
