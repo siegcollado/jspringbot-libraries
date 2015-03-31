@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:ctx="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    <property name="locations">
+      <list>
+        <value>classpath:jspringbot.properties</value>
+      </list>
+    </property>
+  </bean>
+                           
+  <bean class="org.jspringbot.keyword.selenium.driverstrategy.ConfigBean">
+    <property name="browserName" value="selenium.browserName"/>
+    <property name="downloadDirectory" value="${selenium.download.directory:/tmp/jspringbot" />
+    <property name="downloadShowWhenStarting" value="false" />
+    <property name="downloadSaveToDisk" value="${selenium.autosave.content.type}"/>
+    <property name="networkProxyHTTP" value="${selenium.network.proxy.http:none}"/>
+    <property name="networkProxyHTTPPort" value="${selenium.network.proxy.http.port:3128}"/>
+    <property name="networkProxyType" value="${selenium.network.proxy.type:0}"/>
+    <property name="networkProxyNoProxiesOn" value="${selenium.network.proxy.no.proxies.on:none}"/>
+    <property name="networkProxyShareProxySettings" value="true"/>
+    <!--<property name="networkHTTPPhishyUserpassLength" value="255"/>-->
+    <property name="networkAutomaticNtlmAuthTrustedURIs" value="${network.automatic-ntlm-auth.trusted-uris}"/>
+    <property name="networkAutomaticNtlmAuthAllowNonFqdn" value="true"/>
+    <property name="networkNtlmSendLmResponse" value="true"/>
+    <property name="userAgent" value="${user.agent:none}"/>
+    <property name="securityMixedContentBlockActiveContent" value="${security.block.insecure.content:true}"/>
+  </bean>
+
+  <!-- Browser -->
+  <alias name="chrome" alias="ChromeWebDriverStrategy"/>
+  <alias name="DEFAULT" alias="ChromeWebDriverStrategy"/>
+
+  <bean class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean" id="webdriverStrategyFactory">
+    <property name="serviceLocatorInterface" value="strategy.WebDriverStrategyFactory"></property>
+  </bean>
+  
+
+  <!-- Scan components -->
+  <ctx:component-scan base-package="org.jspringbot.keyword.selenium.web" />
+  <ctx:component-scan base-package="org.jspringbot.keyword.selenium.driverstrategy"/>
+  <ctx:annotation-config />
+</beans>
